@@ -23,16 +23,15 @@ public class BoardController {
 	@Inject
 	private BoardService service;
 	
-	/*
-	 * @Inject private ReplyService replyService;
-	 */
+	@Inject
+	private ReplyService repService;
+	 
 	
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public void getlist(Model model) throws Exception {
 
 		List<BoardVO> list = service.list();
-
 		model.addAttribute("list", list);
 	}
 
@@ -52,17 +51,18 @@ public class BoardController {
 	// 게시물 조회
 	@RequestMapping(value = "/view", method = RequestMethod.GET)
 	public void getView(@RequestParam("bno") int bno, Model model) throws Exception {
-
+		
 		BoardVO vo = service.view(bno);
 
 		model.addAttribute("view", vo);
 		
-		//댓글 조회
-		/*
-		 * List<ReplyVO> reply = replyService.list(bno);
-		 * model.addAttribute("reply",reply);
-		 */
-				
+		System.out.println(bno);
+		
+		// 댓글 조회
+		List<ReplyVO> reply = repService.list(bno);
+		
+		model.addAttribute("reply", reply);
+		 
 	}
 
 	// 게시물 수정
